@@ -4,7 +4,8 @@
     "beforeBuildCommand": "pnpm build",
     "beforeDevCommand": "pnpm dev",
     "devPath": "http://localhost:5173",
-    "distDir": "../dist"
+    "distDir": "../dist",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "Excalidraw Mate",
@@ -12,7 +13,13 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "fs": {
+        "all": true
+      },
+      "dialog": {
+        "all": true
+      }
     },
     "bundle": {
       "active": true,
@@ -48,7 +55,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'; script-src http: https: 'unsafe-eval' 'unsafe-inline'; style-src http: https: 'unsafe-inline'; font-src http: https: data: filesystem:; connect-src ws: http: https:; img-src http: https: data: filesystem:; frame-src http: https: data: filesystem:;"
     },
     "updater": {
       "active": false

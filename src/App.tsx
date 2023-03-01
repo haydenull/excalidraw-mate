@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import Draw from './components/Draw'
+import Draw from '@/components/Draw'
+import Side from '@/components/Side'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className="w-screen h-screen">
+      <Side />
       <Draw />
     </div>
   )
