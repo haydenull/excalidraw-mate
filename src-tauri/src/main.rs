@@ -6,6 +6,7 @@
 fn main() {
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![read_file])
+    .plugin(tauri_plugin_store::Builder::default().build())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
