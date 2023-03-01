@@ -3,10 +3,9 @@ import { Excalidraw } from '@excalidraw/excalidraw'
 
 const Draw: React.FC<{}> = () => {
   return (
-    <>
-      <p>Draw</p>
+    <div className="w-screen h-screen">
       <Excalidraw />
-    </>
+    </div>
   )
 }
 
