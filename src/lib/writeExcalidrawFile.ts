@@ -2,10 +2,12 @@ import { exportToBlob, exportToSvg, serializeAsJSON } from '@excalidraw/excalidr
 import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types'
 import type { AppState, BinaryFiles } from '@excalidraw/excalidraw/types/types'
 import { writeFile, writeBinaryFile, writeTextFile } from '@tauri-apps/api/fs'
+import type { ValuesType } from 'utility-types'
+import { CONTENT_TYPE } from './constants'
 
 const textEncoder = new TextEncoder()
 
-const writePng = async (
+export const writePng = async (
   path: string,
   elements: readonly ExcalidrawElement[],
   appState: Partial<AppState>,
@@ -13,7 +15,10 @@ const writePng = async (
 ) => {
   const blob = await exportToBlob({
     elements,
-    appState,
+    appState: {
+      ...appState,
+      exportEmbedScene: true,
+    },
     files,
     getDimensions: (width, height) => {
       const scale = appState.exportScale || 2
@@ -26,7 +31,6 @@ const writePng = async (
   })
 
   if (!blob) {
-    alert('Could not export to PNG')
     return Promise.reject(new Error('Failed to export to PNG'))
   }
 
@@ -58,4 +62,10 @@ export const writeSvg = async (
   })
   const _content = Array.from(textEncoder.encode(svg.outerHTML))
   return writeBinaryFile(path, new Uint8Array(_content))
+}
+
+export const WRITE_FUNC_MAP = {
+  [CONTENT_TYPE.PNG]: writePng,
+  [CONTENT_TYPE.JSON]: writeExcalidrawFile,
+  [CONTENT_TYPE.SVG]: writeSvg,
 }
