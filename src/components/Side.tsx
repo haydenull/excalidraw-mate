@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 import { invoke } from '@tauri-apps/api'
 import { open } from '@tauri-apps/api/dialog'
+import { X } from 'lucide-react'
 import { type FileEntry, readDir, readBinaryFile } from '@tauri-apps/api/fs'
 import { Button } from '@/components/ui/Button'
 import { ScrollArea } from '@/components/ui/ScrollArea'
@@ -19,7 +20,7 @@ const getDirFiles = async (path: string) => {
 
 const Side: React.FC<{}> = () => {
   const [, setDraw] = useAtom(drawAtom)
-  const [appData] = useAtom(appAtom)
+  const [appData, setAppData] = useAtom(appAtom)
   const expand = appData?.showFilePanel
   const [files, setFiles] = useState<FileEntry[]>([])
   const [dirSelectOptions, setDirSelectOptions] = useState<string[]>([])
@@ -56,7 +57,6 @@ const Side: React.FC<{}> = () => {
       const { directories = [], lastDirectory } = await getSettings()
       setDirSelectOptions(directories)
       setDirSelectValue(lastDirectory)
-      // /Users/Hayden/Code/DigitalWorld/zio/draws
       if (lastDirectory) {
         setFiles(await getDirFiles(lastDirectory))
       }
@@ -66,26 +66,29 @@ const Side: React.FC<{}> = () => {
 
   return (
     <div className="h-screen w-[294px] fixed right-0 z-50 p-2 bg-white dark:bg-slate-900 shadow-lg flex flex-col" style={{ display: expand ? 'flex' : 'none' }}>
-      <Select value={dirSelectValue} onValueChange={onDirSelectChange}>
-        <SelectTrigger className="w-[278px]">
-          <SelectValue placeholder="Please select your directory" />
-        </SelectTrigger>
-        <SelectContent className="w-[278px]">
-          {
-            dirSelectOptions.map(option => (
-              <SelectItem key={option} value={option}>{option}</SelectItem>
-            ))
-          }
-          <SelectItem key="placeholder" value="placeholder" className="hidden">placeholder</SelectItem>
-          <div>
-            <Button onClick={openFolder} size="sm" className="w-full mt-2">Add Directory</Button>
-          </div>
-        </SelectContent>
-      </Select>
+      <div className="flex justify-between">
+        <Select value={dirSelectValue} onValueChange={onDirSelectChange}>
+          <SelectTrigger className="w-[220px]">
+            <SelectValue placeholder="Please select your directory" />
+          </SelectTrigger>
+          <SelectContent className="w-[220px]">
+            {
+              dirSelectOptions.map(option => (
+                <SelectItem key={option} value={option}>{option}</SelectItem>
+              ))
+            }
+            <SelectItem key="placeholder" value="placeholder" className="hidden">placeholder</SelectItem>
+            <div>
+              <Button onClick={openFolder} size="sm" className="w-full mt-2">Add Directory</Button>
+            </div>
+          </SelectContent>
+        </Select>
+        <Button size="sm" variant="outline" onClick={() => setAppData(_data => ({..._data, showFilePanel: false}))}><X strokeWidth="1" /></Button>
+      </div>
 
       <ScrollArea className="flex-1 mt-2">
         {files.map(file => (
-          <Button key={file.name} variant="ghost" size="sm" onClick={() => onFileSelect(file)}>{file.name}</Button>
+          <Button key={file.name} variant="ghost" size="sm" className="mx-1" onClick={() => onFileSelect(file)}>{file.name}</Button>
         ))}
       </ScrollArea>
     </div>
