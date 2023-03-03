@@ -4,7 +4,7 @@ const store = new Store('.settings.dat')
 
 export type ISettings = Partial<{
   theme: 'light' | 'dark' | 'system';
-  directories: string[];
+  directories: {path: string; alias?: string}[];
   lastDirectory: string;
 }>
 

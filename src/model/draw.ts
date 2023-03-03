@@ -3,10 +3,13 @@ import { atom } from 'jotai'
 import type { ValuesType } from 'utility-types'
 import { CONTENT_TYPE } from '@/lib/constants'
 
-export const drawAtom = atom<Partial<{
+export type DrawData = Partial<{
   filePath: string;
   fileContent: RestoredDataState;
   contentType: ValuesType<typeof CONTENT_TYPE>
-}>>({
-  filePath: '',
-})
+}>
+export const drawAtom = atom<DrawData[]>([
+  {
+    filePath: '',
+  },
+])
