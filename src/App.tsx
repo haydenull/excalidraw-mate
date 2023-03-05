@@ -5,12 +5,12 @@ import { drawAtom } from '@/model/draw'
 import { useAtom } from 'jotai'
 import { appAtom } from '@/model/app'
 import DirectoryDialog from '@/components/DirectoryDialog'
+import FontDialog from '@/components/FontDialog'
+import Side from '@/components/Side'
 
 function App() {
   const [draws] = useAtom(drawAtom)
   const [appData] = useAtom(appAtom)
-
-  console.log('[faiz:] === draws', draws)
 
   return (
     <>
@@ -26,7 +26,9 @@ function App() {
           ))
         }
       </div>
+      <Side />
       <DirectoryDialog />
+      <FontDialog />
       <Toaster />
     </>
   )

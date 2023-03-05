@@ -8,6 +8,7 @@ import { Plus, Trash2 } from 'lucide-react'
 import { open } from '@tauri-apps/api/dialog'
 import { getSettings, setSettings } from '@/lib/settingsStorage'
 import { useEffect, useState } from 'react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/Tooltip'
 
 const DirectoryDialog: React.FC<{}> = () => {
   const [appData, setAppData] = useAtom(appAtom)
@@ -57,7 +58,14 @@ const DirectoryDialog: React.FC<{}> = () => {
           dirSelectOptions?.map(item => (
             <div className="flex items-center" key={item.path || 'defaultKey'}>
               <div className="grid grid-cols-4 items-center gap-4">
-                <p className="text-right col-span-2 pr-2">{item?.path}</p>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <p className="text-right col-span-2 pr-2 text-ellipsis overflow-hidden">{item?.path}</p>
+                    </TooltipTrigger>
+                    <TooltipContent>{item?.path}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 <Label htmlFor={`alias-${item.path}`} className="text-right col-span-1">Alias Name:</Label>
                 <Input id={`alias-${item.path}`} className="col-span-1" value={item.alias} onChange={e => onAliasInputChange(e, item.path)} />
               </div>

@@ -1,4 +1,5 @@
 import { Store } from 'tauri-plugin-store-api'
+import { FONT_ID } from '@/lib/constants'
 
 const store = new Store('.settings.dat')
 
@@ -6,6 +7,7 @@ export type ISettings = Partial<{
   theme: 'light' | 'dark' | 'system';
   directories: {path: string; alias?: string}[];
   lastDirectory: string;
+  customFont: Partial<Record<keyof typeof FONT_ID, string>>;
 }>
 
 export const setSettings = async <TKey extends keyof ISettings>(key: TKey, value: ISettings[TKey]) => {

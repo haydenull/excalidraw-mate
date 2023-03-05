@@ -20,6 +20,10 @@
       },
       "dialog": {
         "all": true
+      },
+      "shell": {
+        "all": false,
+        "open": true
       }
     },
     "bundle": {
@@ -56,7 +60,7 @@
       }
     },
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: http: https: 'unsafe-eval' 'unsafe-inline'; script-src http: https: 'unsafe-eval' 'unsafe-inline'; style-src http: https: 'unsafe-inline'; font-src http: https: data: filesystem:; connect-src ws: http: https:; img-src http: https: data: filesystem:; frame-src http: https: data: filesystem:;"
+      "csp": null
     },
     "updater": {
       "active": false
